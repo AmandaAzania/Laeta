@@ -293,12 +293,12 @@ router.post('/users/:id/cart', bodyParser.json(),(req, res)=>{
 // favourites
 
 router.get('/users/:id/fav', (req, res)=>{
-    const fav = `select  favourites from users where user_id = ${req.params.id}`
-    db.query(fav,(err, results)=>{
+    const favourites = `select favourites from users where user_id = ${req.params.id}`
+    db.query(favourites,(err, results)=>{
         if(err) throw err 
         res.json({
             status:200, 
-            results:JSON.parse(results[0].fav)
+            results:JSON.parse(results[0].favourites)
         })
 
     })
@@ -352,7 +352,6 @@ module.exports = {
         Proxy: '*'
     }
 }
-
 
 
 
