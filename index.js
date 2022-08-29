@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -190,22 +189,22 @@ router.get('/products', (req, res)=> {
     })
 });
 // GET ONE PRODUCT
-router.get('/products/:productId', (req, res)=> {
-    // Query
-    const strQry =
-    `SELECT product_Id, title, catergory, description, imgURL, quantity, price, created_by
-    FROM products
-    WHERE product_Id = ?;
-    `;
-    db.query(strQry, [req.params.productId], (err, results)=> {
-        if(err) throw err;
-        res.setHeader('Access-Control-Allow-Origin','*')
-        res.json({
-            status: 200,
-            results: (results.length <= 0) ? "Sorry, no product was found." : results
+    router.get('/products/:productId', (req, res)=> {
+        // Query
+        const strQry =
+        `SELECT product_Id, title, catergory, description, imgURL, quantity, price, created_by
+        FROM products
+        WHERE product_Id = ?;
+        `;
+        db.query(strQry, [req.params.productId], (err, results)=> {
+            if(err) throw err;
+            res.setHeader('Access-Control-Allow-Origin','*')
+            res.json({
+                status: 200,
+                results: (results.length <= 0) ? "Sorry, no product was found." : results
+            })
         })
-    })
-});
+    });
 // UPDATE PRODUCT
 router.put('/products/:productId', bodyParser.json(), (req, res)=> {
     const bd = req.body;
@@ -213,10 +212,10 @@ router.put('/products/:productId', bodyParser.json(), (req, res)=> {
     const strQry =
     `UPDATE products
      SET ?
-     WHERE productId = ?`;
+     WHERE product_id = ?`;
      db.query(strQry, [bd, req.params.productId], (err)=> {
         if(err) throw err;
-        res.send(`number of affected record/s: ${data.affectedRows}`);
+        res.send('Product ubdated');
     })
 });
 
@@ -231,6 +230,23 @@ router.delete('/products/:productId', (req, res)=> {
     db.query(strQry,[req.params.productId], (err, data, fields)=> {
         if(err) throw err;
         res.send(`${data.affectedRows} row was affected`);
+    })
+});
+
+router.get('/productCategory/:catergory', (req, res)=> {
+    // Query
+    const strQry =
+    `SELECT product_Id, title, catergory, description, imgURL, quantity, price, created_by
+    FROM products
+    WHERE catergory = ?;
+    `;
+    db.query(strQry, [req.params.catergory], (err, results)=> {
+        if(err) throw err;
+        res.setHeader('Access-Control-Allow-Origin','*')
+        res.json({
+            status: 200,
+            results: (results.length <= 0) ? "Sorry, no product was found." : results
+        })
     })
 });
 
@@ -352,12 +368,6 @@ module.exports = {
         Proxy: '*'
     }
 }
-
-
-
-
-
-
 
 
 
