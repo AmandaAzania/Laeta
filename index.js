@@ -177,7 +177,7 @@ router.get('/products', (req, res)=> {
     // Query
     const strQry =
     `
-    SELECT product_Id, title, catergory, description, imgURL, quantity, price, created_by
+    SELECT product_id, title, catergory, description, imgURL, quantity, price, created_by
     FROM products;
     `;
     db.query(strQry, (err, results)=> {
@@ -189,14 +189,14 @@ router.get('/products', (req, res)=> {
     })
 });
 // GET ONE PRODUCT
-    router.get('/products/:productId', (req, res)=> {
+    router.get('/products/:product_id', (req, res)=> {
         // Query
         const strQry =
-        `SELECT product_Id, title, catergory, description, imgURL, quantity, price, created_by
+        `SELECT product_id, title, catergory, description, imgURL, quantity, price, created_by
         FROM products
         WHERE product_Id = ?;
         `;
-        db.query(strQry, [req.params.productId], (err, results)=> {
+        db.query(strQry, [req.params.product_id], (err, results)=> {
             if(err) throw err;
             res.setHeader('Access-Control-Allow-Origin','*')
             res.json({
@@ -206,28 +206,28 @@ router.get('/products', (req, res)=> {
         })
     });
 // UPDATE PRODUCT
-router.put('/products/:productId', bodyParser.json(), (req, res)=> {
+router.put('/products/:product_id', bodyParser.json(), (req, res)=> {
     const bd = req.body;
     // Query
     const strQry =
     `UPDATE products
      SET ?
      WHERE product_id = ?`;
-     db.query(strQry, [bd, req.params.productId], (err)=> {
+     db.query(strQry, [bd, req.params.product_id], (err)=> {
         if(err) throw err;
         res.send('Product ubdated');
     })
 });
 
 // DELETE PRODUCT
-router.delete('/products/:productId', (req, res)=> {
+router.delete('/products/:product_id', (req, res)=> {
     // Query
     const strQry =
     `
     DELETE FROM products
-    WHERE product_Id = ?;
+    WHERE product_id = ?;
     `;
-    db.query(strQry,[req.params.productId], (err, data, fields)=> {
+    db.query(strQry,[req.params.product_id], (err, data, fields)=> {
         if(err) throw err;
         res.send(`${data.affectedRows} row was affected`);
     })
