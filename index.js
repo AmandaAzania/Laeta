@@ -242,10 +242,9 @@ router.get('/productCategory/:catergory', (req, res)=> {
     `;
     db.query(strQry, [req.params.catergory], (err, results)=> {
         if(err) throw err;
-        res.setHeader('Access-Control-Allow-Origin','*')
         res.json({
             status: 200,
-            results: (results.length <= 0) ? "Sorry, no product was found." : results
+            results: results
         })
     })
 });
