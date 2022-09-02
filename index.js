@@ -232,7 +232,7 @@ router.delete('/products/:product_id', (req, res)=> {
         res.send(`${data.affectedRows} row was affected`);
     })
 });
-
+// get products by catergory
 router.get('/productCategory/:catergory', (req, res)=> {
     // Query
     const strQry =
