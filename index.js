@@ -31,8 +31,9 @@ app.listen(port, ()=> {console.log(`Server is running on port ${port}`)});
 router.get('/', (req, res)=> {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 })
+
 // REGISTER
-router.post('/users', bodyParser.json(),(req, res)=>{
+router.post('/register', bodyParser.json(),(req, res)=>{
     let emails = `SELECT email FROM users WHERE ?`;
     let email = {
         email: req.body.email
@@ -52,11 +53,11 @@ router.post('/users', bodyParser.json(),(req, res)=>{
             const strQry =
             `
             INSERT INTO users(user_fullname, email, password, userRole, phone_number, join_date)
-            VALUES(?, ?, ?, ?, ?, ?);
+            VALUES(?, ?, ?, ?, ?, DEFAULT);
             `;
             //
             db.query(strQry,
-                [bd.user_fullname, bd.email, bd.password, bd.userRole, bd.phone_number, bd.join_date],
+                [bd.user_fullname, bd.email, bd.password, bd.userRole, bd.phone_number],
                 (err, results)=> {
                     if(err) throw err;
                     res.send(`number of affected row/s: ${results.affectedRows}`);
