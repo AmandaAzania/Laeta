@@ -67,18 +67,19 @@ router.post('/register', bodyParser.json(),(req, res)=>{
 })
 // LOGIN
 router.post('/login', bodyParser.json(), (req, res)=> {
-    const strQry = `SELECT * FROM users WHERE ? ;`;
-    let user = {
-        email: req.body.email
-    };
-    db.query(strQry, user, async(err, results)=> {
+    let {email, password} = req.body
+    const strQry = `SELECT * FROM users WHERE email = '${email}'`;
+    // let user = {
+    //     email: req.body.email
+    // };
+    db.query(strQry, async(err, results)=> {
         if (err) throw err;
         if (results.length === 0) {
-            res.send('Email not found. Please register')
+            res.json({msg : 'Email not found. Please register'})
         } else {
             const isMatch = await bcrypt.compare(req.body.password, results[0].password);
             if (!isMatch) {
-                res.send('Password is Incorrect')
+                res.json({msg : 'Password is Incorrect'})
             } else {
                 const payload = {
                     user: {
@@ -93,6 +94,7 @@ router.post('/login', bodyParser.json(), (req, res)=> {
                 jwt.sign(payload,process.env.SECRET_KEY,{expiresIn: "365d"},(err, token) => {
                     if (err) throw err;
                     res.json({
+                        token,
                         results:results
                     })
                   }
