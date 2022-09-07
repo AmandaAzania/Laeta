@@ -65,6 +65,7 @@ router.post('/register', bodyParser.json(),(req, res)=>{
         }
     })
 })
+
 // LOGIN
 router.post('/login', bodyParser.json(), (req, res)=> {
     let {email, password} = req.body
@@ -158,7 +159,21 @@ router.delete('/users/:user_id', (req, res)=> {
         if(err) throw err;
         res.status(200).json({msg: "A user was deleted."});
     })
-})
+});
+
+// update a user
+router.put('/users/:user_id', bodyParser.json(), (req, res)=> {
+    const bd = req.body;
+    // Query
+    const strQry =
+    `UPDATE users
+     SET ?
+     WHERE user_id = ?`;
+     db.query(strQry, [bd, req.params.user_id], (err)=> {
+        if(err) throw err;
+        res.send('user ubdated');
+    })
+});
 // CREATE PRODUCT
 router.post('/products', bodyParser.json(), (req, res)=> {
     const bd = req.body;
