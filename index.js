@@ -366,18 +366,17 @@ router.delete('/users/:id/cart/:cartId', (req,res)=>{
             if(err) throw err;
 
             if(results.length > 0){
-                if(results[0].Cart != null){
-
-                    const result = JSON.parse(results[0].Cart).filter((Cart)=>{
-                        return Cart.albumID != req.params.cartId;
+                if(results[0].results != null){
+                    const result = JSON.parse(results[0].results).filter((Cart)=>{
+                        return Cart.cart_id != req.params.cart_id;
                     })
                     result.forEach((cart,i) => {
-                        cart.albumID = i + 1
+                        cart.cart_id = i + 1
                     });
                     const query = `
                         UPDATE users 
                         SET cart = ? 
-                        WHERE userID = ${req.params.id}
+                        WHERE user_id = ${req.params.id}
                     `;
 
                     db.query(query, [JSON.stringify(result)], (err,results)=>{
