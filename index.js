@@ -359,8 +359,8 @@ router.delete('/users/:id/cart', (req,res)=>{
 //DELETE SINGLE CART
 router.delete('/users/:id/cart/:cartId', (req,res)=>{
         const delSingleCartProd = `
-            SELECT Cart FROM users 
-            WHERE userID = ${req.params.id}
+            SELECT cart FROM users 
+            WHERE user_id = ${req.params.id}
         `
         db.query(delSingleCartProd, (err,results)=>{
             if(err) throw err;
