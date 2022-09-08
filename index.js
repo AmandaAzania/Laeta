@@ -368,7 +368,7 @@ router.delete('/users/:id/cart/:cartId', (req,res)=>{
             if(results.length > 0){
                 if(results[0].cart != null){
                     const result = JSON.parse(results[0].cart).filter((Cart)=>{
-                        return Cart.cart_id != req.params.cart_id;
+                        return Cart.cart_id != req.params.cartId;
                     })
                     result.forEach((cart,i) => {
                         cart.cart_id = i + 1
