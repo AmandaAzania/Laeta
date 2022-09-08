@@ -329,7 +329,7 @@ router.post('/users/:id/cart', bodyParser.json(),(req, res)=>{
 // DELETE ALL CART
 router.delete('/users/:id/cart', (req,res)=>{
     const delALLCart = `+
-        SELECT Cart FROM users 
+        SELECT cart FROM users 
         WHERE user_id = ${req.params.id}
     `
     db.query(delALLCart, (err,results)=>{
@@ -337,7 +337,7 @@ router.delete('/users/:id/cart', (req,res)=>{
         if(results.length >0){
             const query = `
                 UPDATE users 
-                SET Cart = null 
+                SET cart = null 
                 WHERE user_id = ${req.params.id}
             `
             db.query(query,(err,results)=>{
