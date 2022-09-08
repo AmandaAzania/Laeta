@@ -324,6 +324,83 @@ router.post('/users/:id/cart', bodyParser.json(),(req, res)=>{
         }
     })
 })
+// DELETE ALL CART
+router.delete('/users/:id/cart', (req,res)=>{
+    const delALLCart = `+
+        SELECT Cart FROM users 
+        WHERE user_id = ${req.params.id}
+    `
+    db.query(delALLCart, (err,results)=>{
+        if(err) throw err;
+        if(results.length >0){
+            const query = `
+                UPDATE users 
+                SET Cart = null 
+                WHERE user_id = ${req.params.id}
+            `
+            db.query(query,(err,results)=>{
+                if(err) throw err
+                res.json({
+                    status:200,
+                    results: `Successfully cleared the cart`
+                })
+            });
+        }else{
+            res.json({
+                status:400,
+                result: `There is no user with that ID`
+            });
+        }
+    })
+})
+
+//DELETE SINGLE CART
+router.delete('/users/:id/cart/:cartId', (req,res)=>{
+        const delSingleCartProd = `
+            SELECT Cart FROM users 
+            WHERE userID = ${req.params.id}
+        `
+        db.query(delSingleCartProd, (err,results)=>{
+            if(err) throw err;
+
+            if(results.length > 0){
+                if(results[0].Cart != null){
+
+                    const result = JSON.parse(results[0].Cart).filter((Cart)=>{
+                        return Cart.albumID != req.params.cartId;
+                    })
+                    result.forEach((cart,i) => {
+                        cart.albumID = i + 1
+                    });
+                    const query = `
+                        UPDATE users 
+                        SET cart = ? 
+                        WHERE userID = ${req.params.id}
+                    `;
+
+                    db.query(query, [JSON.stringify(result)], (err,results)=>{
+                        if(err) throw err;
+                        res.json({
+                            status:200,
+                            result: "Successfully deleted the selected item from cart"
+                        });
+                    })
+
+                }else{
+                    res.json({
+                        status:400,
+                        result: "This user has an empty cart"
+                    })
+                }
+            }else{
+                res.json({
+                    status:400,
+                    result: "There is no user with that id"
+                });
+            }
+        })
+
+})
 
 // favourites
 
