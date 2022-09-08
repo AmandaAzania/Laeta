@@ -328,7 +328,7 @@ router.post('/users/:id/cart', bodyParser.json(),(req, res)=>{
 })
 // DELETE ALL CART
 router.delete('/users/:id/cart', (req,res)=>{
-    const delALLCart = `+
+    const delALLCart = `
         SELECT cart FROM users 
         WHERE user_id = ${req.params.id}
     `
