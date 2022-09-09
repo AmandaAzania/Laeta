@@ -62,7 +62,9 @@ router.post('/register', bodyParser.json(),(req, res)=>{
                 [bd.user_fullname, bd.email, bd.password, bd.userRole, bd.phone_number],
                 (err, results)=> {
                     if(err) throw err;
-                    res.send(`number of affected row/s: ${results.affectedRows}`);
+                    res.json({
+                        msg:`Registered`
+                    })
                 })
         }
     })
