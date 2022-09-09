@@ -63,7 +63,7 @@ router.post('/register', bodyParser.json(),(req, res)=>{
                 (err, results)=> {
                     if(err) throw err;
                     res.json({
-                        msg:`Registered`
+                        msg:`you are Registered`
                     })
                 })
         }
