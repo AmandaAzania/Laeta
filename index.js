@@ -44,7 +44,9 @@ router.post('/register', bodyParser.json(),(req, res)=>{
         if(err) throw err
         // VALIDATION
         if (results.length > 0) {
-            res.send("The email provided is already registered. Enter another email to successfully register");
+            res.json({
+                msg:"The email provided is already registered. Enter another email to successfully register"
+            });
         } else {
             const bd = req.body;
    
